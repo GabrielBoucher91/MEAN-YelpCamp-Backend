@@ -1,0 +1,15 @@
+{
+  "name": "mean-yelpcamp-backend",
+  "version": "0.1.0",
+  "description": "Backend for a MEAN stack version of the YelpCamp app from the Udemy course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gabriel Boucher",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.7.0"
+  }
+}

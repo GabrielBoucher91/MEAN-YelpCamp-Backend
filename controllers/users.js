@@ -4,7 +4,11 @@ const ExpressError = require("../utils/ExpressError");
 
 module.exports.getUser = async (req, res) => {
   const user = await User.findOne({ email: req.query.email });
-  res.send(user);
+  if (user) {
+    res.send({ username: true });
+  } else {
+    res.send({ username: false });
+  }
 };
 
 module.exports.registerUser = async (req, res, next) => {

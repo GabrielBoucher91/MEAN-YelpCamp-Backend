@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const catchAsync = require("../utils/catchAsync");
 
 router.route("/username").get((req, res, next) => {
   res.send("BWAH");

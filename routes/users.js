@@ -5,7 +5,10 @@ router.route("/username").get((req, res, next) => {
   res.send("BWAH");
 });
 
-router.route("/register").post();
+router.route("/register").post((req, res) => {
+  console.log(req.body);
+  res.send(req.body);
+});
 
 router.route("/login").post();
 

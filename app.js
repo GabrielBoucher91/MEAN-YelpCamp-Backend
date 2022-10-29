@@ -1,4 +1,6 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const session = require("express-session");
 const path = require("path");
 const port = 8000;
 const ExpressError = require("./utils/ExpressError");
@@ -6,21 +8,53 @@ const ExpressError = require("./utils/ExpressError");
 //Passport imports
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const User = require("./models/users");
 
 // Defining routes
 const userRoutes = require("./routes/users");
 const reviewRoutes = require("./routes/reviews");
 const campgroundRoutes = require("./routes/campgrounds");
 
-// Starting app
-app = express();
+//Connect to mongoose
+async function mongooseConnect() {
+  await mongoose.connect("mongodb://localhost:27017/yelp-camp-mean");
+  console.log("Connected to Database");
+}
 
-//routing
+mongooseConnect().catch((err) => {
+  console.log(err);
+});
+
+//Starting app
+app = express();
+app.use(express.urlencoded({ extended: true }));
+
+//Login and session
+const sessionConfig = {
+  secret: "thisshouldbeabettersecret!",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
+app.use(session(sessionConfig));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//Routing
 app.use("/users", userRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/reviews", reviewRoutes);
 
-app.app.all("*", (req, res, next) => {
+app.all("*", (req, res, next) => {
   console.log("Page not found");
   next(new ExpressError("Page not found", 404));
 });

@@ -9,7 +9,7 @@ router.route("/register").post(userController.registerUser);
 
 router
   .route("/login")
-  .post(passport.authenticate("local"), userController.login);
+  .post(userController.authenticateLocal, userController.login);
 
 router.route("/signedin").get(userController.checkAuth);
 

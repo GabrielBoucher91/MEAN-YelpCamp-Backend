@@ -24,9 +24,9 @@ module.exports.authenticateLocal = async (req, res, next) => {
 module.exports.getUser = async (req, res) => {
   const user = await User.findOne({ email: req.query.email });
   if (user) {
-    res.send({ username: true });
+    res.send({ email: true });
   } else {
-    res.send({ username: false });
+    res.send({ email: false });
   }
 };
 
@@ -58,7 +58,7 @@ module.exports.checkAuth = async (req, res) => {
   if (req.isAuthenticated()) {
     res.send({ Authenticated: true });
   } else {
-    res.send({ Authenticated: false });
+    res.status(500).send({ Authenticated: false });
   }
 };
 

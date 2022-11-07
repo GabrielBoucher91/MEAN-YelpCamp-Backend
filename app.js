@@ -17,7 +17,7 @@ const campgroundRoutes = require("./routes/campgrounds");
 
 //Connect to mongoose
 async function mongooseConnect() {
-  await mongoose.connect("mongodb://localhost:27017/yelp-camp-mean");
+  await mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp-mean");
   console.log("Connected to Database");
 }
 
@@ -45,7 +45,9 @@ app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(
+  new LocalStrategy({ usernameField: "email" }, User.authenticate())
+);
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 

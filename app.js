@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const path = require("path");
@@ -28,6 +29,9 @@ mongooseConnect().catch((err) => {
 //Starting app
 app = express();
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  bodyParser.raw({ inflate: true, limit: "100kb", type: "application/json" })
+);
 
 //Login and session
 const sessionConfig = {

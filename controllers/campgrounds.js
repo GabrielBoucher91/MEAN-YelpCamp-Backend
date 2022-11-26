@@ -56,3 +56,9 @@ module.exports.updateCampground = async (req, res) => {
   await campground.save();
   res.send(campground);
 };
+
+module.exports.deleteCAmpground = async (req, res) => {
+  const id = req.params.id;
+  await Campground.findByIdAndDelete(id);
+  res.send({ success: true, message: "Campground deleted" });
+};

@@ -6,4 +6,4 @@ module.exports = router;
 
 router.route("/newreview").post(reviews.newReview);
 
-router.route("/:id").get().delete();
+router.route("/:id").get(reviews.getReview).delete(reviews.deleteReview);

@@ -15,4 +15,6 @@ router.route("/signedin").get(userController.checkAuth);
 
 router.route("/logout").get(userController.logout);
 
+router.route("/:id").get(userController.getUser);
+
 module.exports = router;

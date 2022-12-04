@@ -26,9 +26,15 @@ module.exports.addCampground = async (req, res) => {
 };
 
 module.exports.getCampground = async (req, res) => {
-  console.log(req.params.id);
-  const campground = await Campground.findById(req.params.id);
-  res.send(campground);
+  const campground = await Campground.findById(req.params.id)
+    .populate({ path: "reviews" })
+    .populate({ path: "author", select: "_id email" });
+
+  if (!campground) {
+    res.status(404).send({ message: "Campground not found" });
+  } else {
+    res.send(campground);
+  }
 };
 
 module.exports.updateCampground = async (req, res) => {
